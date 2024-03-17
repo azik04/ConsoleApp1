@@ -1,33 +1,36 @@
 ﻿using ConsoleApp1;
-using Microsoft.Data.SqlClient;
-using System.Data;
+using ConsoleApp1.Model;
 
 public class Program
 {
-    private static void Main(string[] args)
-    {
-        
-    var register = new Registers();
-        var login = new LogIns(register.Users);
-        bool running = true;
-        while (running)
-        {
-            Console.WriteLine("1. Register");
-            Console.WriteLine("2. Login");
+    private static AppDbContext.ApplicationDbContext _db;
 
-            string choice = Console.ReadLine();
-            switch (choice)
-            {
-                case "1":
-                    register.Register();
-                    break;
-                case "2":
-                    login.Login();
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice. Please try again.");
-                    break;
-            }
+    public Program(AppDbContext.ApplicationDbContext db)
+    {
+        _db = db;
+    }
+
+    public static void Main(string[] args)
+    {
+        var swit = new Switch(_db);
+        var register = new Registers(_db); 
+        var login = new LogIns(_db); 
+
+        Console.WriteLine("1. Register");
+        Console.WriteLine("2. Login");
+
+        string choice = Console.ReadLine();
+        switch (choice)
+        {
+            case "1":
+                register.Register();
+                break;
+            case "2":
+                login.Login();
+                break;
+            default:
+                Console.WriteLine("Invalid choice. Please try again.");
+                break;
         }
     }
 }

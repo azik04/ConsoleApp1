@@ -3,17 +3,18 @@ namespace ConsoleApp1
 {
     public class Views
     {
-        private List<Product> _product;
-        public Views(List<Product> products)
+        private readonly AppDbContext.ApplicationDbContext _db;
+        public Views(AppDbContext.ApplicationDbContext db)
         {
-            _product = products;
+            _db = db;
         }
+
         public void View()
         {
-            var reg = new Registers();
-            var buy = new Buy(reg.Users, _product);
+            var swit = new Switch(_db);
+            var buy = new Buy(_db);
             Console.WriteLine("List of Products:");
-            foreach (var item in _product)
+            foreach (var item in _db.Product)
             {
                 Console.WriteLine($"Name: {item.Name}, Price: {item.Price}");
             }
@@ -35,6 +36,7 @@ namespace ConsoleApp1
                     break;
 
             }
+            swit.Switc();
         }
     }
 }
